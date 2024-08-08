@@ -13,24 +13,24 @@ type httpResult[T any] struct {
 
 type Service struct {
 	sender     *Sender
-	plugin_arr []*hub.Plugin
+	plugin_arr []hub.Plugin
 }
 
 func NewService(sender *Sender) *Service {
 	return &Service{
 		sender:     sender,
-		plugin_arr: []*hub.Plugin{},
+		plugin_arr: []hub.Plugin{},
 	}
 }
 
-func (s *Service) AddPlugin(plugin *hub.Plugin) {
+func (s *Service) AddPlugin(plugin hub.Plugin) {
 	s.plugin_arr = append(s.plugin_arr, plugin)
 }
 
 func (s *Service) Handle(message *hub.Message) error {
 	slog.Info("receive message", "type", message.MsgType, "content", message.Content)
 	for _, plugin := range s.plugin_arr {
-		if err := (*plugin).Handle(message, s.sender); err != nil {
+		if err := plugin.Handle(message, s.sender); err != nil {
 			return err
 		}
 	}

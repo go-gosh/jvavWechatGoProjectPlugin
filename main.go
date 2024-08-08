@@ -40,9 +40,8 @@ func init() {
 }
 
 func initPlugins(service *Service) {
-	var p hub.Plugin
-	p = new(plugins.SamePlugin)
-	service.AddPlugin(&p)
+	// service.AddPlugin(plugins.NewFake())
+	service.AddPlugin(plugins.NewPolice())
 	// p = new(plugins.DemoPlugin)
 	// service.AddPlugin(&p)
 }
